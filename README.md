@@ -11,6 +11,9 @@ The project in its current form is just a prototype and does not include game me
 1. Clone this project
 2. Open the project in Unity 3D
 3. Import the Unity Asset package 'demolishderby-props.unitypackage'
+  * You can get this package from our network at:
+  ```\RND\repository\solace-messaging-hackathon-demos\team1\demolishderby-props.unitypackage```
+  
 4. Hit the 'Play' button to start the Game demo (From Unity)
 
 ## Building the project to target platform
