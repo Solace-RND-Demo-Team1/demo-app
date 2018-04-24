@@ -18,6 +18,8 @@ namespace UnityStandardAssets.Vehicles.Car
 
     public class CustomCarController : MonoBehaviour
     {
+        private Boolean hitGround = false;
+
         [SerializeField] private CarDriveType m_CarDriveType = CarDriveType.FourWheelDrive;
         [SerializeField] private WheelCollider[] m_WheelColliders = new WheelCollider[4];
         [SerializeField] private GameObject[] m_WheelMeshes = new GameObject[4];
@@ -70,7 +72,6 @@ namespace UnityStandardAssets.Vehicles.Car
             m_Rigidbody = GetComponent<Rigidbody>();
             m_CurrentTorque = m_FullTorqueOverAllWheels - (m_TractionControl * m_FullTorqueOverAllWheels);
         }
-
 
         private void GearChanging()
         {
@@ -128,7 +129,8 @@ namespace UnityStandardAssets.Vehicles.Car
         public void Bump()
         {
             //if (m_WheelColliders[0].isGrounded)
-            m_Rigidbody.AddForce(50, 500, 0, ForceMode.Impulse);
+            m_Rigidbody.AddForce(50, 1500, 0, ForceMode.Impulse);
+            
         }
 
         public void Move(float steering, float accel, float footbrake, float handbrake)
