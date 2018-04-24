@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 31f8e902ab44469499b9d346544880bd
+  - enabled: 1
+    path: Assets/Scenes/DemolishDerby.unity
+    guid: f6f036f666c615842ad5d52b7003c626

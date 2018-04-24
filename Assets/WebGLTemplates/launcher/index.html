@@ -10,7 +10,7 @@
     <script src="lib/solclient-debug.js"></script>
     <script>
 
-      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/demolishderby.json");
+      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/demolishderby2.json");
 
       connectToSolace();
 
@@ -31,6 +31,11 @@
 
         gameInstance.SendMessage('Vehicle-' + carNum, 'MoveVehicle', dataStruct);
       }
+
+      function DisplayMessage(text) {
+        gameInstance.SendMessage('EventSystem', 'DisplayBillboardText', text); 
+      }
+
 
       function connectToSolace() {
         factoryProps = new solace.SolclientFactoryProperties();
@@ -76,12 +81,14 @@
 
         subscriber.session.on(solace.SessionEventCode.MESSAGE, function (message) {
             
+            DisplayMessage(message.getBinaryAttachment());
+
+            controlMsg = JSON.stringify(message.getBinaryAttachment());
+
             console.log(
               "Received vehicle control: " 
-              + JSON.stringify(controlMsg)
+              + controlMsg
               );
-
-            var controlMsg = JSON.parse(message.getBinaryAttachment());
 
             MoveCar(
               controlMsg.carNum
