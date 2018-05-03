@@ -10,8 +10,57 @@
     <script src="lib/solclient-debug.js"></script>
     <script>
 
+      // Handle Events Reported by Unity Game
+      //
+      function killPlayer(playerId) {
+        window.alert("Player : " + playerId + " killed !");
+      }
+
+      function gameOptionsConfigured(maxPlayers) {
+        window.alert("Game Options: Max Players = " + maxPlayers);
+      }
+
+      function enteredGameLobby() {
+        window.alert("Entering Game Lobby");
+      }
+
+      function gameStarted(numStartingPlayers) {
+        window.alert("Game Started with " + numStartingPlayers + " players!");
+
+        // Add 8 players to game
+        //
+        var params = [];
+        for (var i=0; i<8; i++) {
+          // Player Id
+          params[0] = i.toString();
+          // Player Gamer Tag
+          params[1] = "Player-" + i.toString();
+          // Player Score
+          params[2] = "0";
+          
+          var dataStruct = 
+            + params[0] + "," 
+            + params[1] + "," 
+            + params[2];
+
+          gameInstance.SendMessage('GameLevel', 'SubstitutePlayer', dataStruct);
+        }
+
+      }
+
+      function playerSubstituted(playerId, colour) {
+        window.alert("Player " + playerId + " substitued / Player Colour: " + colour);
+      }
+
+      function playerKilled(playerId) {
+        window.alert("Player : " + playerId + " killed !");
+      }
+
+      // Load Unity Game into namespace
+      //
       var gameInstance = UnityLoader.instantiate("gameContainer", "Build/demolishderby2.json");
 
+      // Solace messaging / Subscribe to player events
       connectToSolace();
 
       var factoryProps;
@@ -33,7 +82,7 @@
       }
 
       function DisplayMessage(text) {
-        gameInstance.SendMessage('EventSystem', 'DisplayBillboardText', text); 
+        gameInstance.SendMessage('GameLevel', 'DisplayBillboardText', text); 
       }
 
 
@@ -83,7 +132,7 @@
             
             DisplayMessage(message.getBinaryAttachment());
 
-            controlMsg = JSON.stringify(message.getBinaryAttachment());
+            controlMsg = JSON.parse(message.getBinaryAttachment());
 
             console.log(
               "Received vehicle control: " 
@@ -115,7 +164,7 @@
   </head>
   
   <body>
-    <div id="gameContainer" style="width: 1200px; height: 900px; margin: auto"></div>
+    <div id="gameContainer" style="width: 1400px; height: 900px; margin: auto"></div>
   </body>
   
 </html>
